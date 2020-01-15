@@ -1,5 +1,10 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Inspired From
+https://www.youtube.com/watch?v=_-YfoAzIDzw
+https://findingctrl.nesta.org.uk/
+https://www.basili.co/
+
 ## Available Scripts
 
 In the project directory, you can run:
