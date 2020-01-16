@@ -1,7 +1,5 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import SampleCard from './sample-card-flex'
 import SampleCardFlex from './sample-card-flex'
 
 const useStyles = makeStyles(theme => ({
@@ -17,7 +15,7 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         flexDirection: 'row',
         flexWrap: 'wrap',
-        justifyContent: 'flex-start',
+        justifyContent: 'center',
         alignItems: 'flex-start'
     }
 }));
@@ -28,40 +26,40 @@ export default function FullWidthGrid() {
     return (
         <div className={classes.flexContainer}>
                 
-                    <SampleCard/>
-                
-                
-                    <SampleCard/>
-                
-                
-                    <SampleCard/>
+                    <SampleCardFlex/>
                 
                 
                     <SampleCardFlex/>
                 
                 
-                    <SampleCard/>
+                    <SampleCardFlex/>
                 
                 
-                    <SampleCard/>
+                    <SampleCardFlex/>
                 
                 
-                    <SampleCard/>
+                    <SampleCardFlex/>
                 
                 
-                    <SampleCard/>
+                    <SampleCardFlex/>
                 
                 
-                    <SampleCard/>
+                    <SampleCardFlex/>
                 
                 
-                    <SampleCard/>
+                    <SampleCardFlex/>
                 
                 
-                    <SampleCard/>
+                    <SampleCardFlex/>
                 
                 
-                    <SampleCard/>
+                    <SampleCardFlex/>
+                
+                
+                    <SampleCardFlex/>
+                
+                
+                    <SampleCardFlex/>
                 
         </div>
     );

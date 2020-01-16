@@ -1,11 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
-import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
-import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import Collapse from '@material-ui/core/Collapse';
 import Avatar from '@material-ui/core/Avatar';
@@ -16,7 +13,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import { TweenMax, Power3 } from 'gsap';
+import { gsap, Power3, ScrollToPlugin } from 'gsap/all';
 
 
 const useStyles = makeStyles(theme => ({
@@ -49,42 +46,76 @@ const useStyles = makeStyles(theme => ({
         justifyContent: 'flex-start',
         alignItems: 'center',
         boxShadow: '0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,0,0.14), 0px 3px 14px 2px rgba(0,0,0,0.12)'
+    },
+    positionAbsolute: {
+        position: 'relative'
     }
 }));
+
+gsap.registerPlugin(ScrollToPlugin);
 
 export default function SampleCard() {
     const classes = useStyles();
     const [expanded, setExpanded] = useState(false);
     const [cardExpanded, setCardExpanded] = useState(false);
+    const [boundingClientRect, setBoundingClientRect] = useState(null);
 
-    let oneCard = useRef(null)
+
+    let oneImage = useRef(null)
+    let oneTitle = useRef(null)
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
 
-    const handleCardExpandClick = () => {
+    const handleCardExpandClick = (event) => {
         setCardExpanded(!cardExpanded);
         if (cardExpanded) {
-            TweenMax.to(oneCard, 1, {
+            gsap.to(oneImage, 1, {
                 width: 350,
+                height: 200,
+                top: boundingClientRect.top,
+                left: boundingClientRect.left,
+                //xPercent: 0,
+                position: 'static',
                 ease: Power3.easeOut
             })
+            gsap.to(oneTitle, 1, {
+                top: boundingClientRect.top - 100,
+                left: boundingClientRect.left,
+                position: 'static',
+                ease: Power3.easeOut
+            })
+            window.scrollTo(0,boundingClientRect.top)
         }
         else {
-            TweenMax.to(oneCard, 1, {
+            let element = event.target;
+            setBoundingClientRect(element.getBoundingClientRect());
+            gsap.to(oneImage, 1, {
                 width: 700,
+                height: 300,
+                top:0,
+                left:0,
+                //xPercent:-50,
+                position: 'absolute',
                 ease: Power3.easeOut
             })
+            gsap.to(oneTitle, 1, {
+                top:320,
+                left:40,
+                position: 'absolute',
+                ease: Power3.easeOut
+            })
+            window.scrollTo(0,0)
         }
     };
 
     return (
-        <div className={classes.flexContainer} raised={true} ref={el => { oneCard = el }}>
-            <CardHeader
+        <div className={classes.flexContainer}>
+            <CardHeader ref={el => { oneTitle = el }} 
                 avatar={
                     <Avatar aria-label="recipe" className={classes.avatar}>
-                        F
+                        R
                     </Avatar>
                 }
                 action={
@@ -92,21 +123,23 @@ export default function SampleCard() {
                         <MoreVertIcon />
                     </IconButton>
                 }
-                title="Rancho Bernardo Subdivision"
+                title="Rancho Bernardo Properties"
                 subheader="114 Lasoya Dr"
             />
-            <CardActionArea onClick={handleCardExpandClick}>
-                <CardMedia
-                    className={classes.media}
-                    image="/water-circle.png"
-                    title="water usage"
+            
+            <img src="/property.jpg" 
+                width="100%" 
+                alt="Rancho Bernardo Properties" 
+                ref={el => { oneImage = el }}  
+                onClick={handleCardExpandClick}
+                style={{cursor: 'pointer'}}
                 />
-                <CardContent>
-                    <Typography variant="body2" color="textSecondary" component="p">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat
-          </Typography>
-                </CardContent>
-            </CardActionArea>
+            <CardContent>
+                <Typography variant="body2" color="textSecondary" component="p">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat
+                </Typography>
+            </CardContent>
+            
             <CardActions disableSpacing>
                 <IconButton aria-label="add to favorites">
                     <FavoriteIcon />
