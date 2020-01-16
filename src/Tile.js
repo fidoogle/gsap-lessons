@@ -2,6 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import SampleCard from './SampleCard'
+import SampleCardFlex from './sample-card-flex'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -30,7 +31,7 @@ export default function FullWidthGrid() {
                     <SampleCard/>
                 </Grid>
                 <Grid item xs={12} sm={6} md={3} lg={2}>
-                    <SampleCard/>
+                    <SampleCardFlex/>
                 </Grid>
                 <Grid item xs={12} sm={6} md={3} lg={2}>
                     <SampleCard/>
