@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -14,6 +14,8 @@ import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { gsap, Power3, ScrollToPlugin } from 'gsap/all';
+import { StoreContext } from './stores/store'
+
 
 
 const useStyles = makeStyles(theme => ({
@@ -46,20 +48,18 @@ const useStyles = makeStyles(theme => ({
         justifyContent: 'flex-start',
         alignItems: 'center',
         boxShadow: '0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,0,0.14), 0px 3px 14px 2px rgba(0,0,0,0.12)'
-    },
-    positionAbsolute: {
-        position: 'relative'
     }
 }));
 
 gsap.registerPlugin(ScrollToPlugin);
 
-export default function SampleCard() {
+export default function SampleCard(props) {
     const classes = useStyles();
     const [expanded, setExpanded] = useState(false);
     const [cardExpanded, setCardExpanded] = useState(false);
     const [boundingClientRect, setBoundingClientRect] = useState(null);
-
+    const { ['appFunctions']: [appFuncs, setAppFuncs] } = useContext(StoreContext); //fancy destructuring
+    const { ['appInfo']: [dataApp, setDataApp] } = useContext(StoreContext); //fancy destructuring
 
     let oneImage = useRef(null)
     let oneTitle = useRef(null)
@@ -69,34 +69,42 @@ export default function SampleCard() {
     };
 
     const handleCardExpandClick = (event) => {
+        event.preventDefault()
         setCardExpanded(!cardExpanded);
         if (cardExpanded) {
-            gsap.to(oneImage, 1, {
+            //oneImage.setAttribute("style", "z-index: 0;")
+            //oneTitle.setAttribute("style", "z-index: 0;")
+            gsap.to(oneImage, {
+                duration: 1,
                 width: 350,
                 height: 200,
                 top: boundingClientRect.top,
                 left: boundingClientRect.left,
-                //xPercent: 0,
                 position: 'static',
+                'z-index': 0,
                 ease: Power3.easeOut
             })
-            gsap.to(oneTitle, 1, {
+            gsap.to(oneTitle, {
+                duration: 1,
                 top: boundingClientRect.top - 100,
                 left: boundingClientRect.left,
                 position: 'static',
+                'z-index': 0,
                 ease: Power3.easeOut
             })
+            appFuncs.hideOverlay(dataApp.oneOverlay);
             window.scrollTo(0,boundingClientRect.top)
         }
         else {
             let element = event.target;
             setBoundingClientRect(element.getBoundingClientRect());
+            oneImage.setAttribute("style", "z-index: 300;")
+            oneTitle.setAttribute("style", "z-index: 300;")
             gsap.to(oneImage, 1, {
                 width: 700,
                 height: 300,
                 top:0,
                 left:0,
-                //xPercent:-50,
                 position: 'absolute',
                 ease: Power3.easeOut
             })
@@ -106,11 +114,14 @@ export default function SampleCard() {
                 position: 'absolute',
                 ease: Power3.easeOut
             })
+            appFuncs.showOverlay(dataApp.oneOverlay);
             window.scrollTo(0,0)
         }
     };
 
     return (
+        <div>
+        
         <div className={classes.flexContainer}>
             <CardHeader ref={el => { oneTitle = el }} 
                 avatar={
@@ -160,31 +171,14 @@ export default function SampleCard() {
             </CardActions>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <CardContent>
-                    <Typography paragraph>Method:</Typography>
+                    <Typography paragraph>Notes:</Typography>
                     <Typography paragraph>
-                        Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10
-                        minutes.
-          </Typography>
-                    <Typography paragraph>
-                        Heat oil in a (14- to 16-inch) paella pan or a large, deep skillet over medium-high
-                        heat. Add chicken, shrimp and chorizo, and cook, stirring occasionally until lightly
-                        browned, 6 to 8 minutes. Transfer shrimp to a large plate and set aside, leaving chicken
-                        and chorizo in the pan. Add pimentón, bay leaves, garlic, tomatoes, onion, salt and
-                        pepper, and cook, stirring often until thickened and fragrant, about 10 minutes. Add
-                        saffron broth and remaining 4 1/2 cups chicken broth; bring to a boil.
-          </Typography>
-                    <Typography paragraph>
-                        Add rice and stir very gently to distribute. Top with artichokes and peppers, and cook
-                        without stirring, until most of the liquid is absorbed, 15 to 18 minutes. Reduce heat to
-                        medium-low, add reserved shrimp and mussels, tucking them down into the rice, and cook
-                        again without stirring, until mussels have opened and rice is just tender, 5 to 7
-                        minutes more. (Discard any mussels that don’t open.)
-          </Typography>
-                    <Typography>
-                        Set aside off of the heat to let rest for 10 minutes, and then serve.
-          </Typography>
+                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+                    </Typography>
+                    
                 </CardContent>
             </Collapse>
+        </div>
         </div>
     );
 }
