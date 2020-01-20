@@ -20,47 +20,37 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
+const properties = [
+    {name: 'Rancho Bernardo Properties'},
+    {name: 'Fisher Business'},
+    {name: 'Smeal College'},
+    {name: 'Facilities at Haas'},
+    {name: 'Henry Company'},
+    {name: 'GNT Realty Partners'},
+    {name: 'UWF College of Business'},
+    {name: 'Arcadia Business Park'},
+    {name: 'UTSA College of Business'},
+    {name: 'Pacific Point at Douglas'},
+    {name: 'CA Commercial'},
+    {name: 'Herbert Hugo'},
+    {name: 'Spears Business'},
+    {name: 'McCombs Business School'},
+    {name: 'Livingston Rutgers'},
+    {name: 'Diller Scofidio'},
+    {name: 'Darla Moore School'},
+    {name: 'Orson West Partners'},
+    {name: 'Bradford Property Mgmt'},
+    {name: 'Quartz Realty Group'},
+]
+
 export default function FullWidthGrid(props) {
     const classes = useStyles();
 
     return (
         <div className={classes.flexContainer}>
-                
-                    <SampleCardFlex/>
-                
-                
-                    <SampleCardFlex/>
-                
-                
-                    <SampleCardFlex/>
-                
-                
-                    <SampleCardFlex/>
-                
-                
-                    <SampleCardFlex/>
-                
-                
-                    <SampleCardFlex/>
-                
-                
-                    <SampleCardFlex/>
-                
-                
-                    <SampleCardFlex/>
-                
-                
-                    <SampleCardFlex/>
-                
-                
-                    <SampleCardFlex/>
-                
-                
-                    <SampleCardFlex/>
-                
-                
-                    <SampleCardFlex/>
-                
+            {properties.map((o, index) => (
+                <SampleCardFlex name={o.name} key={o.name} index={index}/>
+            ))}
         </div>
     );
 }

@@ -126,7 +126,7 @@ export default function SampleCard(props) {
             <CardHeader ref={el => { oneTitle = el }} 
                 avatar={
                     <Avatar aria-label="recipe" className={classes.avatar}>
-                        R
+                        {props.name.charAt(0)}
                     </Avatar>
                 }
                 action={
@@ -134,12 +134,13 @@ export default function SampleCard(props) {
                         <MoreVertIcon />
                     </IconButton>
                 }
-                title="Rancho Bernardo Properties"
+                title={props.name}
                 subheader="114 Lasoya Dr"
             />
             
-            <img src="/property.jpg" 
-                width="100%" 
+            <img src={`/property${props.index}.jpg`}
+                width="100%"
+                height="200"
                 alt="Rancho Bernardo Properties" 
                 ref={el => { oneImage = el }}  
                 onClick={handleCardExpandClick}
