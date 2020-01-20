@@ -39,16 +39,6 @@ const useStyles = makeStyles(theme => ({
     avatar: {
         backgroundColor: red[500],
     },
-    flexContainer: {
-        width: '350px',
-        margin: '15px',
-        display: 'flex',
-        flexDirection: 'column',
-        flexWrap: 'nowrap',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        boxShadow: '0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,0,0.14), 0px 3px 14px 2px rgba(0,0,0,0.12)'
-    }
 }));
 
 gsap.registerPlugin(ScrollToPlugin);
@@ -122,11 +112,11 @@ export default function SampleCard(props) {
     return (
         <div>
         
-        <div className={classes.flexContainer}>
+        <div className="flex-card">
             <CardHeader ref={el => { oneTitle = el }} 
                 avatar={
                     <Avatar aria-label="recipe" className={classes.avatar}>
-                        {props.name.charAt(0)}
+                        {props.property.name.charAt(0)}
                     </Avatar>
                 }
                 action={
@@ -134,20 +124,18 @@ export default function SampleCard(props) {
                         <MoreVertIcon />
                     </IconButton>
                 }
-                title={props.name}
-                subheader="114 Lasoya Dr"
+                title={props.property.name}
+                subheader={props.property.address}
             />
             
             <img src={`/property${props.index}.jpg`}
-                width="100%"
-                height="200"
-                alt="Rancho Bernardo Properties" 
+                className="property-image"
+                alt={props.name} 
                 ref={el => { oneImage = el }}  
                 onClick={handleCardExpandClick}
-                style={{cursor: 'pointer'}}
                 />
             <CardContent>
-                <Typography variant="body2" color="textSecondary" component="p">
+                <Typography variant="body2" color="textSecondary" component="p" className="notes">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat
                 </Typography>
             </CardContent>
