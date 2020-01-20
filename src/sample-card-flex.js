@@ -87,22 +87,33 @@ export default function SampleCard(props) {
         }
         else {
             let element = event.target;
-            setBoundingClientRect(element.getBoundingClientRect());
-            oneImage.setAttribute("style", "z-index: 300;")
+            setBoundingClientRect(element.getBoundingClientRect()); //TODO: this does not appear working
+            let bounding = element.getBoundingClientRect();
+            gsap.set(oneImage, {position: 'absolute', 'z-index': 300})
             oneTitle.setAttribute("style", "z-index: 300;")
-            gsap.to(oneImage, 1, {
+            gsap.fromTo(oneImage, .6,
+                {
+                    width: 350,
+                    height: 200,
+                    top: bounding.top,
+                    left: bounding.left,
+                    // x: event.clientX,
+                    // y: event.clientY,
+                },
+                {
                 width: 700,
                 height: 300,
                 top:0,
                 left:0,
-                position: 'absolute',
-                ease: Power3.easeOut
-            })
-            gsap.to(oneTitle, 1, {
+                //position: 'absolute',
+                //ease: Power3.easeOut
+                }
+            )
+            gsap.to(oneTitle, .6, {
                 top:320,
                 left:40,
                 position: 'absolute',
-                ease: Power3.easeOut
+                //ease: Power3.easeOut
             })
             appFuncs.showOverlay(dataApp.oneOverlay);
             window.scrollTo(0,0)
