@@ -62,59 +62,76 @@ export default function SampleCard(props) {
         event.preventDefault()
         setCardExpanded(!cardExpanded);
         if (cardExpanded) {
-            //oneImage.setAttribute("style", "z-index: 0;")
-            //oneTitle.setAttribute("style", "z-index: 0;")
-            gsap.to(oneImage, {
-                duration: 1,
-                width: 350,
-                height: 200,
-                top: boundingClientRect.top,
-                left: boundingClientRect.left,
-                position: 'static',
-                'z-index': 0,
-                ease: Power3.easeOut
-            })
-            gsap.to(oneTitle, {
-                duration: 1,
-                top: boundingClientRect.top - 100,
-                left: boundingClientRect.left,
-                position: 'static',
-                'z-index': 0,
-                ease: Power3.easeOut
-            })
             appFuncs.hideOverlay(dataApp.oneOverlay);
-            window.scrollTo(0,boundingClientRect.top)
+            console.log(boundingClientRect.top - 200)
+            window.scrollTo(0,boundingClientRect.top - 200)
+
+            //Allows top/left positioning with 'absolute'
+            gsap.set(oneImage, {position: 'absolute', 'z-index': 300})
+            gsap.set(oneTitle, {position: 'absolute', 'z-index': 300})
+
+            gsap.fromTo(oneImage, .6,
+                {
+                    width: 700,
+                    height: 300,
+                    top: 0,
+                    left: 0,
+                },
+                {
+                    width: 350,
+                    height: 200,
+                    top: boundingClientRect.top,
+                    left: boundingClientRect.left,
+                    //ease: Power3.easeOut
+                }
+            )
+            gsap.to(oneTitle, .6,
+                {
+                    top:320,
+                    left:40,
+                },
+                {
+                    top: boundingClientRect.top - 100,
+                    left: boundingClientRect.left,
+                    //ease: Power3.easeOut
+                }
+            )
+            //Set back to static to contain elements in original place
+            gsap.set(oneImage, {position: 'static', 'z-index': 0}) // better to set than to setAttribute
+            gsap.set(oneTitle, {position: 'static', 'z-index': 0})
         }
         else {
             let element = event.target;
             setBoundingClientRect(element.getBoundingClientRect()); //TODO: this does not appear working
             let bounding = element.getBoundingClientRect();
-            gsap.set(oneImage, {position: 'absolute', 'z-index': 300})
-            oneTitle.setAttribute("style", "z-index: 300;")
+            gsap.set(oneImage, {position: 'absolute', 'z-index': 300}) // better to set than to setAttribute
+            gsap.set(oneTitle, {position: 'absolute', 'z-index': 300})
             gsap.fromTo(oneImage, .6,
                 {
                     width: 350,
                     height: 200,
                     top: bounding.top,
                     left: bounding.left,
-                    // x: event.clientX,
-                    // y: event.clientY,
-                },
+                }, 
                 {
-                width: 700,
-                height: 300,
-                top:0,
-                left:0,
-                //position: 'absolute',
-                //ease: Power3.easeOut
+                    width: 700,
+                    height: 300,
+                    top:0,
+                    left:0,
+                    //ease: Power3.easeOut
                 }
             )
-            gsap.to(oneTitle, .6, {
-                top:320,
-                left:40,
-                position: 'absolute',
-                //ease: Power3.easeOut
-            })
+            gsap.fromTo(oneTitle, .6, 
+                {
+                    top: bounding.top - 100,
+                    left: bounding.left,
+                },
+                {
+                    top:320,
+                    left:40,
+                    //ease: Power3.easeOut
+                }
+            )
             appFuncs.showOverlay(dataApp.oneOverlay);
             window.scrollTo(0,0)
         }
