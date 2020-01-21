@@ -58,7 +58,8 @@ export default function SampleCard(props) {
         event.preventDefault()
         setCardExpanded(!cardExpanded);
         if (cardExpanded) { //contract it
-            appFuncs.hideOverlay(dataApp.oneOverlay);
+            appFuncs.showOverlay(dataApp.oneOverlay, false);
+            appFuncs.showChart(dataApp.oneChart, false);
             window.scrollTo(0, clickedCoords.y - 200)
 
             //Allows top/left positioning with 'absolute'
@@ -121,13 +122,16 @@ export default function SampleCard(props) {
                     //ease: Power3.easeOut
                 }
             )
-            appFuncs.showOverlay(dataApp.oneOverlay);
+
+            appFuncs.showOverlay(dataApp.oneOverlay, true);
+            appFuncs.showChart(dataApp.oneChart, true);
+            console.log('Fidel oneOverlay:', dataApp.oneOverlay, '\noneChart:', dataApp.oneChart)
             window.scrollTo(0,0)
         }
     };
 
     return (
-        <div>
+    <div>
         
         <div className="flex-card">
             <CardHeader ref={el => { oneTitle = el }} 
@@ -185,6 +189,6 @@ export default function SampleCard(props) {
                 </CardContent>
             </Collapse>
         </div>
-        </div>
+    </div>
     );
 }

@@ -14,22 +14,30 @@ export default ({ children }) => {
         email: 'pedrosmith@gmail.com'
     }
     const appState = {
+        oneChart: null,
         oneOverlay: null,
         selectedAccount: accountNumbers[0] //can be set to first accountNumber after they load
     }
 
     // Global Functions
-    const showOverlay = (oneOverlay) => {
-        oneOverlay.setAttribute("style", "height: 100%;")
-        gsap.to(oneOverlay, {duration: 1, autoAlpha: 1, delay: 0})
+    const showOverlay = (oneOverlay, show) => {
+        if (show) {
+            oneOverlay.setAttribute("style", "height: 100%;")
+            gsap.to(oneOverlay, {duration: 1, autoAlpha: 1, delay: 0})
+        } else {
+            oneOverlay.setAttribute("style", "height: 0")
+        }
     };
-    const hideOverlay = (oneOverlay) => {
-        oneOverlay.setAttribute("style", "height: 0")
-        //gsap.to(oneOverlay, {duration: .5, autoAlpha: 0, height: 0})
+    const showChart = (oneChart, show) => {
+        if (show) {
+            gsap.set(oneChart, {position: 'absolute', top: 400, 'z-index': 300, display: 'flex', width: '100%'})
+        } else {
+            gsap.set(oneChart, {position: 'static', display: 'none'})
+        }
     };
     const globalFunctions = {
         showOverlay,
-        hideOverlay
+        showChart
     }
 
     const [app, setApp] = React.useState(appState)

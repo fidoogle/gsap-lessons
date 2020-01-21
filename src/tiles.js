@@ -1,6 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import SampleCard from './sample-card'
+import Chart from './chart'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -67,10 +68,13 @@ export default function FullWidthGrid(props) {
     const classes = useStyles();
 
     return (
-        <div className={classes.flexContainer}>
-            {properties.map((o, index) => (
-                <SampleCard property={o} key={o.name} index={index}/>
-            ))}
-        </div>
+        <>
+            <div className={classes.flexContainer}>
+                {properties.map((o, index) => (
+                    <SampleCard property={o} key={o.name} index={index}/>
+                ))}
+            </div>
+            
+        </>
     );
 }
