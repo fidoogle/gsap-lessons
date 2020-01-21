@@ -1,8 +1,10 @@
 let mediaQueryWidth = window.matchMedia('(max-width: 768px)');
 let mediaDimensions = null;
+let isSmallScreen = mediaQueryWidth.matches;
 
-const handleWidthChange = (evt) => {
-    if (evt.matches) {
+const handleWidthChange = () => {
+    isSmallScreen = mediaQueryWidth.matches
+    if (isSmallScreen) {
         /* width <= 768px */
         mediaDimensions = {
             originalWidth: 180,
@@ -22,6 +24,6 @@ const handleWidthChange = (evt) => {
 }
 
 mediaQueryWidth.addListener(handleWidthChange);
-handleWidthChange(mediaQueryWidth);
+handleWidthChange();
 
-export { mediaDimensions }
+export { isSmallScreen, mediaDimensions }

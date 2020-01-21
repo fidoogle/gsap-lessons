@@ -15,18 +15,10 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { gsap, Power3, ScrollToPlugin } from 'gsap/all';
 import { StoreContext } from './stores/store'
-import { mediaDimensions } from './utilities'
-
+import { isSmallScreen, mediaDimensions } from './utilities'
 
 
 const useStyles = makeStyles(theme => ({
-    card: {
-        width: 350,
-    },
-    media: {
-        height: 0,
-        paddingTop: '56.25%', // 16:9
-    },
     expand: {
         transform: 'rotate(0deg)',
         marginLeft: 'auto',
@@ -46,11 +38,14 @@ gsap.registerPlugin(ScrollToPlugin);
 
 export default function SampleCard(props) {
     const classes = useStyles();
+    //Local state
     const [expanded, setExpanded] = useState(false);
     const [cardExpanded, setCardExpanded] = useState(false);
+    const [clickedCoords, setClickedCoords] = useState({x:0, y:0});
     const [boundingClientRect, setBoundingClientRect] = useState(null);
-    const { ['appFunctions']: [appFuncs, setAppFuncs] } = useContext(StoreContext); //fancy destructuring
-    const { ['appInfo']: [dataApp, setDataApp] } = useContext(StoreContext); //fancy destructuring
+    //Global info
+    const { ['appFunctions']: [appFuncs, setAppFuncs] } = useContext(StoreContext);
+    const { ['appInfo']: [dataApp, setDataApp] } = useContext(StoreContext);
 
     let oneImage = useRef(null)
     let oneTitle = useRef(null)
@@ -64,8 +59,7 @@ export default function SampleCard(props) {
         setCardExpanded(!cardExpanded);
         if (cardExpanded) { //contract it
             appFuncs.hideOverlay(dataApp.oneOverlay);
-            console.log(boundingClientRect.top - 200)
-            window.scrollTo(0,boundingClientRect.top - 200)
+            window.scrollTo(0, clickedCoords.y - 200)
 
             //Allows top/left positioning with 'absolute'
             gsap.set(oneImage, {position: 'absolute', 'z-index': 300})
@@ -102,9 +96,11 @@ export default function SampleCard(props) {
             gsap.set(oneTitle, {position: 'static', 'z-index': 0}) // sets title back to its original position
         }
         else { //expand it
-            let element = event.target;
-            setBoundingClientRect(element.getBoundingClientRect()); //TODO: this does not appear working
-            let bounding = element.getBoundingClientRect();
+            let element = event.target
+            setBoundingClientRect(element.getBoundingClientRect()) //TODO: this does not appear working
+            setClickedCoords({x: event.pageX, y: event.pageY})
+
+            let bounding = element.getBoundingClientRect()
             gsap.set(oneImage, {position: 'absolute', 'z-index': 300}) // better to set than to setAttribute
             gsap.set(oneTitle, {position: 'absolute', 'z-index': 300})
             gsap.fromTo(oneImage, .6,
@@ -128,7 +124,7 @@ export default function SampleCard(props) {
                     left: bounding.left,
                 },
                 {
-                    top:320,
+                    top: (isSmallScreen)?200:320,
                     left:40,
                     //ease: Power3.easeOut
                 }
