@@ -15,6 +15,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { gsap, Power3, ScrollToPlugin } from 'gsap/all';
 import { StoreContext } from './stores/store'
+import { mediaDimensions } from './utilities'
 
 
 
@@ -61,7 +62,7 @@ export default function SampleCard(props) {
     const handleCardExpandClick = (event) => {
         event.preventDefault()
         setCardExpanded(!cardExpanded);
-        if (cardExpanded) {
+        if (cardExpanded) { //contract it
             appFuncs.hideOverlay(dataApp.oneOverlay);
             console.log(boundingClientRect.top - 200)
             window.scrollTo(0,boundingClientRect.top - 200)
@@ -72,35 +73,35 @@ export default function SampleCard(props) {
 
             gsap.fromTo(oneImage, .6,
                 {
-                    width: 700,
-                    height: 300,
+                    width: mediaDimensions.toWidth,
+                    height: mediaDimensions.toHeight,
                     top: 0,
                     left: 0,
                 },
                 {
-                    width: 350,
-                    height: 200,
+                    width: mediaDimensions.originalWidth,
+                    height: mediaDimensions.originalHeight,
                     top: boundingClientRect.top,
                     left: boundingClientRect.left,
                     //ease: Power3.easeOut
                 }
             )
-            gsap.to(oneTitle, .6,
-                {
-                    top:320,
-                    left:40,
-                },
-                {
-                    top: boundingClientRect.top - 100,
-                    left: boundingClientRect.left,
-                    //ease: Power3.easeOut
-                }
-            )
+            // gsap.to(oneTitle, 2.6,
+            //     // {
+            //     //     top:320,
+            //     //     left:40,
+            //     // },
+            //     {
+            //         top: boundingClientRect.top,
+            //         left: boundingClientRect.left,
+            //         //ease: Power3.easeOut
+            //     }
+            // )
             //Set back to static to contain elements in original place
             gsap.set(oneImage, {position: 'static', 'z-index': 0}) // better to set than to setAttribute
-            gsap.set(oneTitle, {position: 'static', 'z-index': 0})
+            gsap.set(oneTitle, {position: 'static', 'z-index': 0}) // sets title back to its original position
         }
-        else {
+        else { //expand it
             let element = event.target;
             setBoundingClientRect(element.getBoundingClientRect()); //TODO: this does not appear working
             let bounding = element.getBoundingClientRect();
@@ -108,14 +109,14 @@ export default function SampleCard(props) {
             gsap.set(oneTitle, {position: 'absolute', 'z-index': 300})
             gsap.fromTo(oneImage, .6,
                 {
-                    width: 350,
-                    height: 200,
+                    width: mediaDimensions.originalWidth,
+                    height: mediaDimensions.originalHeight,
                     top: bounding.top,
                     left: bounding.left,
                 }, 
                 {
-                    width: 700,
-                    height: 300,
+                    width: mediaDimensions.toWidth,
+                    height: mediaDimensions.toHeight,
                     top:0,
                     left:0,
                     //ease: Power3.easeOut
