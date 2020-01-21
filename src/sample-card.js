@@ -80,17 +80,7 @@ export default function SampleCard(props) {
                     //ease: Power3.easeOut
                 }
             )
-            // gsap.to(oneTitle, 2.6,
-            //     // {
-            //     //     top:320,
-            //     //     left:40,
-            //     // },
-            //     {
-            //         top: boundingClientRect.top,
-            //         left: boundingClientRect.left,
-            //         //ease: Power3.easeOut
-            //     }
-            // )
+
             //Set back to static to contain elements in original place
             gsap.set(oneImage, {position: 'static', 'z-index': 0}) // better to set than to setAttribute
             gsap.set(oneTitle, {position: 'static', 'z-index': 0}) // sets title back to its original position
@@ -115,6 +105,8 @@ export default function SampleCard(props) {
                     height: mediaDimensions.toHeight,
                     top:0,
                     left:0,
+                    //left: '50%',
+                    //xPercent: -50,
                     //ease: Power3.easeOut
                 }
             )

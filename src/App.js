@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useRef} from 'react';
 import './App.scss';
-import TileFlex from './tile-flex'
+import Tiles from './tiles'
 import { StoreContext } from './stores/store'
 
 
@@ -15,8 +15,8 @@ function App() {
   return (
     <div className="App">
       <div id="overlay" ref={el => { oneOverlay = el }}></div>
-      <h2>This uses Flexbox for the Layout and the Card with sprinkles of Material UI</h2>
-      <TileFlex />
+      <h2>Uses Flexbox, Material UI, Greensock, Media Queries for mobile and desktop views.</h2>
+      <Tiles />
     </div>
   );
 }
